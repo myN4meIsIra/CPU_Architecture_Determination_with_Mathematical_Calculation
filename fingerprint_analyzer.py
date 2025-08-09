@@ -13,7 +13,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import mplcursors  # Add this import
 
 
-aggregate_data_filename = "aggregate_data.csv"
+aggregate_data_filename = "python scripts/aggregate_data.csv"
 
 
 # handle txt file
@@ -232,7 +232,7 @@ def analyze_data():
 def main():
     
     # Directory containing the fingerprint files
-    directory = "fingerprint_results"
+    directory = "python scripts/fingerprint_results"
     
     # List to hold all fingerprints
     fingerprints = []
@@ -240,6 +240,7 @@ def main():
     uuids = []
 
     # pull the data from all those files in the directory
+    print(f"files: {os.listdir('.')}")
     for filename in os.listdir(directory):
         if filename.endswith(".csv"):
 
