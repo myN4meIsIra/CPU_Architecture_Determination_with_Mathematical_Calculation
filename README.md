@@ -2,10 +2,9 @@
 
 ### In Using Floating Point Operations to Fingerprint CPU Architectures
 
-*By Ira Garrett*
-
-*Master's Student in Cybersecurity at Hood College*
-
+### By Ira Garrett  
+*Master's student in Cybersecurity at Hood College*  
+Email: garrnic3@isu.edu
 
 This tool is part of the data-gathering phase of a research project, with the purpose and intention to fingerprint your CPU Architecture by performing mathematical operations and recording the results.  
 

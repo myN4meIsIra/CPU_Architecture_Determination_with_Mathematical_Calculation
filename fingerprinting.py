@@ -119,7 +119,11 @@ def log_fingerprint(i):
     return {i:[val, elapsed]}
 
 
-
+# fingerprint cpu
+"""
+    Perform the fingerprinting process for the CPU by iterating through a range of values
+    and collecting the results of the various mathematical operations.
+"""
 def fingerprint_cpu():
     results = [[],[],[],[]]
 
@@ -145,12 +149,13 @@ def fingerprint_cpu():
 
 # main function to run/command the fingerprinting process
 """
- main scrip
+ main script
 """
 if __name__ == "__main__":
     print("Welcome to the CPU Fingerprinting Tool!")
 
     # get system information
+    """ this is the meta-data of the system that is being fingerprinted, so that the data can be matched and analyzed later """
     while True:
         # get OS type
         try:
@@ -159,6 +164,7 @@ if __name__ == "__main__":
             print(f"Error determining OS type: {e}")
             os_type = "Unknown"
         os_type_from_user = input(f"What type of Operating System are you using? (e.g., Windows, Linux, macOS): ").strip()
+
 
         # determine if running off a VM, etc.
         while True:
@@ -179,6 +185,7 @@ if __name__ == "__main__":
         cpu_generation_from_user = input("What generation is your CPU? (e.g., 10th, 11th, etc.) -- type \"IDK\" if you do not know --: ").strip()
         
 
+        # Confirm system information
         print(f"\n\n\n****** Please look over this information, for research accuracy purposes ******\n"
               f"Detected OS Type: {os_type}\n"
               f"OS Type (That You Typed In): {os_type_from_user}\n"
@@ -196,6 +203,7 @@ if __name__ == "__main__":
     print("Starting fingerprinting process...")
     time.sleep(1)  # Simulate some delay for user experience
 
+    # call the fingerprinting function
     results = fingerprint_cpu()
 
     print("Fingerprinting completed.")
@@ -203,6 +211,7 @@ if __name__ == "__main__":
     time.sleep(1)  # Simulate some delay for user experience
 
 
+    # try and load the system information and calculation data into a file
     try:
         # Generate a unique identifier for the results
         import uuid
