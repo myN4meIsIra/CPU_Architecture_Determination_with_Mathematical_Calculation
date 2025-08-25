@@ -284,7 +284,9 @@ if __name__ == "__main__":
             writer = csv.DictWriter(csvfile, fieldnames=["i", "sin_value", "sin_elapsed",
                                                     "cos_value", "cos_elapsed",
                                                     "e_value", "e_elapsed",
-                                                    "log_value", "log_elapsed"])
+                                                    "log_value", "log_elapsed",
+                                                    "cosh_value", "cosh_elapsed",
+                                                    "tan_value", "tan_elapsed"])
             writer.writeheader()
             for i in range(len(results[0])):
                 writer.writerow({
@@ -296,7 +298,11 @@ if __name__ == "__main__":
                     "e_value": results[2][i][i][0],
                     "e_elapsed": results[2][i][i][1],
                     "log_value": results[3][i][i][0],
-                    "log_elapsed": results[3][i][i][1]
+                    "log_elapsed": results[3][i][i][1],
+                    "cosh_value": results[4][i][i][0],
+                    "cosh_elapsed": results[4][i][i][1],
+                    "tan_value": results[5][i][i][0],
+                    "tan_elapsed": results[5][i][i][1]
                 })
 
     

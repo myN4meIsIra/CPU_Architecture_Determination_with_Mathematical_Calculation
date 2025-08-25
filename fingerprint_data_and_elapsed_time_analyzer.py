@@ -68,6 +68,10 @@ def read_csv(directory, filename):
                 'e_elapsed': row['e_elapsed'],
                 'log_value': row['log_value'],
                 'log_elapsed': row['log_elapsed'],
+                'cosh_value': row['cosh_value'],
+                'cosh_elapsed': row['cosh_elapsed'],
+                'tan_value': row['tan_value'],
+                'tan_elapsed': row['tan_elapsed']
             }
             data.append(fingerprint)
     return data
