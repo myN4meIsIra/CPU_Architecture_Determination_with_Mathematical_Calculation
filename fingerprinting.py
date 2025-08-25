@@ -55,7 +55,9 @@ def test_for_bit_overflow(i, operation):
         if operation == "sin": bits_sin = math.sin(10**i * math.pi)
         elif operation == "cos": bits_cos = math.cos(10**i * math.pi)
         elif operation == "e": bits_e = math.e ** i
-        elif operation == "log": bits_log = math.log10(10**i)
+        elif operation == "log": bits_log = math.log10(10**(i*-1))
+        elif operation == "cosh": bits_cosh = math.cosh(i)
+        elif operation == "tan": bits_tan = math.tan(-1*10**i)
         else: raise ValueError("Invalid operation specified.")
     except Exception as e:
         """print(f"(Anticipated) Error at i={i}, and proper handling occured. "
@@ -109,14 +111,42 @@ def e_fingerprint(i):
 
 # log fingerprint
 """
-calculate log(10^i) fingerprint
+calculate log(10^-i) fingerprint
 """
 def log_fingerprint(i):
     start = time.time()
-    val = math.log10(10**i)
+    val = math.log10(10**(i*-1))
+    #print(f"Calculating log for i={i} \t val = {val}")
     elapsed = time.time() - start
     
     return {i:[val, elapsed]}
+
+
+
+# cosh fingerprint
+"""
+calculate cosh(i)
+"""
+def cosh_fingerprint(i):
+    start = time.time()
+    val = math.cosh(i)
+    elapsed = time.time() - start
+    
+    return {i:[val, elapsed]}
+
+
+
+# tan fingerprint
+"""
+calculate tan(-1*10^i)
+"""
+def tan_fingerprint(i):
+    start = time.time()
+    val = math.tan(-1*10**i)
+    elapsed = time.time() - start
+    
+    return {i:[val, elapsed]}
+
 
 
 # fingerprint cpu
@@ -125,7 +155,7 @@ def log_fingerprint(i):
     and collecting the results of the various mathematical operations.
 """
 def fingerprint_cpu():
-    results = [[],[],[],[]]
+    results = [[],[],[],[],[],[]]
 
     iterations = 10000
     for i in range(iterations):
@@ -140,6 +170,12 @@ def fingerprint_cpu():
 
         if not test_for_bit_overflow(i, "log"): results[3].append(log_fingerprint(i))
         else: results[3].append({i: ["Overflow", "N/A"]})
+
+        if not test_for_bit_overflow(i, "cosh"): results[4].append(cosh_fingerprint(i))
+        else: results[4].append({i: ["Overflow", "N/A"]})
+
+        if not test_for_bit_overflow(i, "tan"): results[5].append(tan_fingerprint(i))
+        else: results[5].append({i: ["Overflow", "N/A"]})
 
         print(f"Progress: {i+1}/iterations", end='\r')
 

@@ -163,8 +163,14 @@ def analyze():
         grouped[record['i']].append(record)
 
     # For each iteration, check for differing values and elapsed times
-    functions = ['sin_value', 'cos_value', 'e_value', 'log_value']
-    elapsed_functions = ['sin_elapsed', 'cos_elapsed', 'e_elapsed', 'log_elapsed']
+    functions = [
+        'sin_value', 'cos_value', 'e_value', 'log_value',
+        'cosh_value', 'tan_value'
+    ]
+    elapsed_functions = [
+        'sin_elapsed', 'cos_elapsed', 'e_elapsed', 'log_elapsed',
+        'cosh_elapsed', 'tan_elapsed'
+    ]
     inconsistent_rows = []
     for i, records in grouped.items():
         for func in functions + elapsed_functions:
@@ -172,15 +178,10 @@ def analyze():
             sysinfos = {}
             for rec in records:
                 uuid = rec['UUID']
-                values[uuid] = rec[func]
+                values[uuid] = rec.get(func)
                 sysinfos[uuid] = uuid_to_sysinfo.get(uuid, {})
             unique_vals = set(values.values())
             if len(unique_vals) > 1:
-                print(f"Iteration i={i}, function {func} has differing values:")
-                #for uuid, val in values.items():
-                    #print(f"  UUID {uuid}: {val}")
-                    #print(f"    System Info: {sysinfos[uuid]}")
-                # Save inconsistent row data with system info
                 inconsistent_rows.append({
                     'iteration': i,
                     'function': func,
@@ -191,10 +192,6 @@ def analyze():
     # Export inconsistent rows to a JSON file
     with open(inconsistant_rows_filename, "w") as out_f:
         json.dump(inconsistent_rows, out_f, indent=4)
-
-
-
-import mplcursors
 
 def visualize():
     # Load the aggregate data file
@@ -213,10 +210,18 @@ def visualize():
         grouped[record['i']].append(record)
 
 
-    functions = ['sin_value', 'cos_value', 'e_value', 'log_value',
-                 'sin_elapsed', 'cos_elapsed', 'e_elapsed', 'log_elapsed']
-    maxVals = {'sin_value':400, 'cos_value':400, 'e_value':1000, 'log_value':10000,
-                 'sin_elapsed':400, 'cos_elapsed':400, 'e_elapsed':1000, 'log_elapsed':10000}
+    functions = [
+        'sin_value', 'cos_value', 'e_value', 'log_value',
+        'cosh_value', 'tan_value',
+        'sin_elapsed', 'cos_elapsed', 'e_elapsed', 'log_elapsed',
+        'cosh_elapsed', 'tan_elapsed'
+    ]
+    maxVals = {
+        'sin_value':400, 'cos_value':400, 'e_value':1000, 'log_value':10000,
+        'cosh_value':400, 'tan_value':400,
+        'sin_elapsed':400, 'cos_elapsed':400, 'e_elapsed':1000, 'log_elapsed':10000,
+        'cosh_elapsed':400, 'tan_elapsed':400
+    }
     iterations = sorted(grouped.keys())
 
     for func in functions:
@@ -228,7 +233,7 @@ def visualize():
             records = grouped[i]
             values = {}
             for rec in records:
-                values[rec['UUID']] = rec[func]
+                values[rec['UUID']] = rec.get(func)
             unique_vals = set(values.values())
             if len(unique_vals) > 1:
                 inconsistencies.append(1)
@@ -247,7 +252,6 @@ def visualize():
         plt.grid(True)
         plt.tight_layout()
 
-        # Add interactive hover showing i, UUIDs, and function name
         cursor = mplcursors.cursor(scatter, hover=True)
         @cursor.connect("add")
         def on_add(sel):
